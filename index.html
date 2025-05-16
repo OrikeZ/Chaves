@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Controle de Chaves - Início</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Controle de Chaves</h1>
+  </header>
+
+  <main>
+    <section class="registro">
+      <h2>Registrar Retirada de Chave</h2>
+      <form id="form-registro">
+        <label for="pessoa">Pessoa:</label>
+        <select id="pessoa" required></select>
+
+        <label for="chave">Chave:</label>
+        <select id="chave" required></select>
+
+        <button type="submit">Registrar Retirada</button>
+      </form>
+    </section>
+
+    <section class="abertas">
+      <h2>Chaves Retiradas (Em Aberto)</h2>
+      <ul id="lista-retiradas"></ul>
+    </section>
+
+    <section class="cadastros">
+      <div class="cadastro-pessoa">
+        <h3>Cadastrar Pessoa</h3>
+        <form id="form-pessoa">
+          <input id="nova-pessoa" type="text" placeholder="Nome da pessoa" required />
+          <button type="submit">Adicionar Pessoa</button>
+        </form>
+      </div>
+
+      <div class="cadastro-chave">
+        <h3>Cadastrar Chave</h3>
+        <form id="form-chave">
+          <input id="nova-chave" type="text" placeholder="Número/Identificação da chave" required />
+          <button type="submit">Adicionar Chave</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <nav>
+      <a href="registros.html">Ver Todos os Registros</a>
+    </nav>
+  </footer>
+
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

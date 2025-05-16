@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Pessoas</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Cadastro de Pessoas</h1>
+  </header>
+
+  <main>
+    <form id="form-cadastro-pessoa">
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" required>
+
+      <label for="cpf">CPF:</label>
+      <input type="text" id="cpf" required>
+
+      <label for="cargo">Cargo:</label>
+      <input type="text" id="cargo" required>
+
+      <button type="submit">Cadastrar Pessoa</button>
+    </form>
+
+    <section>
+      <h2>Pessoas Cadastradas</h2>
+      <ul id="lista-pessoas"></ul>
+    </section>
+
+    <nav style="text-align:center; margin-top: 20px;">
+      <a href="index.html">Voltar para Início</a>
+    </nav>
+  </main>
+
+  <script src="script_pessoa.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Cadastro de Chaves</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Cadastro de Chaves</h1>
+  </header>
+
+  <main>
+    <form id="form-cadastro-chave">
+      <label for="numero-chave">Número da Chave:</label>
+      <input type="text" id="numero-chave" required>
+
+      <label for="local-chave">Local da Chave:</label>
+      <input type="text" id="local-chave" required>
+
+      <label for="setores-chave">Permissões (Setores):</label>
+      <select id="setores-chave" multiple required>
+        <option value="Administrativo">Administrativo</option>
+        <option value="Manutenção">Manutenção</option>
+        <option value="Segurança">Segurança</option>
+        <option value="TI">TI</option>
+      </select>
+
+      <button type="submit">Cadastrar Chave</button>
+    </form>
+
+    <nav style="text-align:center; margin-top: 20px;">
+      <a href="index.html">Voltar para Início</a>
+    </nav>
+  </main>
+
+  <script src="script_chave.js"></script>
+</body>
+</html>
