@@ -7,22 +7,25 @@
   <title>Cadastro Controle de Chaves</title>
 
 </head>
+
 <script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const botaoLogout = document.getElementById('logout');
+    if (botaoLogout) {
+      botaoLogout.addEventListener('click', () => {
+        localStorage.removeItem('usuarioLogado');
+        window.location.href = 'login.html';
+      });
+    }
+  });
+</script>
+<body>
+  <script>
   const usuarioLogado = localStorage.getItem('usuarioLogado');
   if (!usuarioLogado) {
     window.location.href = 'login.html';  // redireciona para o login caso não esteja logado
   }
 </script>
-
-<button id="logout">Sair</button>
-
-<script>
-  document.getElementById('logout').addEventListener('click', () => {
-    localStorage.removeItem('usuarioLogado');
-    window.location.href = 'login.html';
-  });
-</script>
-<body>
 <header>
   <div class="header-content">
     <div class="header-title">
@@ -31,9 +34,7 @@
 
     </div>
 
-    <div class="header-logo">
-      <img src="LOGO SERRA MORENA (2).jpg" alt="Logo do Controle de Chaves" /> 
-    </div>
+
     <nav>
       <a href="index.html">Página Inicial</a>
       <a href="cadastro.html">Cadastros</a>
@@ -97,7 +98,8 @@
       <input type="text" id="local-chave" name="local-chave" required />
 
       <label for="select-setores-chave">Setores autorizados para esta chave (Selecione um ou mais):</label>
-      <select id="select-setores-chave" name="select-setores-chave" multiple required></select>
+      <div id="checkbox-setores-chave"></div>
+
 
       <button type="submit">Adicionar Chave</button>
     </form>

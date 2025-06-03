@@ -36,7 +36,7 @@ function salvarDados() {
 
 // Atualiza checkboxes dos setores em cargos e chaves
 function atualizarCheckboxesSetores() {
-  // Para cargos
+  // Para cargos (checkboxes)
   checkboxSetoresCargo.innerHTML = '';
   setores.forEach(setor => {
     const id = `cargo-setor-${setor}`;
@@ -57,6 +57,16 @@ function atualizarCheckboxesSetores() {
 
     checkboxSetoresCargo.appendChild(div);
   });
+
+  // Para chaves (select multiple)
+  checkboxSetoresChave.innerHTML = '';
+  setores.forEach(setor => {
+    const option = document.createElement('option');
+    option.value = setor;
+    option.textContent = setor;
+    checkboxSetoresChave.appendChild(option);
+  });
+}
 
   // Para chaves
   checkboxSetoresChave.innerHTML = '';
@@ -79,7 +89,7 @@ function atualizarCheckboxesSetores() {
 
     checkboxSetoresChave.appendChild(div);
   });
-}
+
 
 // Atualiza select cargos na pessoa
 function atualizarSelectCargo() {
@@ -171,8 +181,12 @@ formChave.addEventListener('submit', e => {
   e.preventDefault();
   const numero = inputNumeroChave.value.trim();
   const local = inputLocalChave.value.trim();
-  const setoresAutorizados = Array.from(checkboxSetoresChave.querySelectorAll('input[type=checkbox]:checked'))
-    .map(chk => chk.value);
+const setoresAutorizados = Array.from(checkboxSetoresChave.selectedOptions).map(opt => opt.value);
+
+if (setoresAutorizados.length === 0) {
+  alert('Selecione pelo menos um setor autorizado para a chave.');
+  return;
+}
 
   if (!numero) {
     alert('Digite o número da chave.');

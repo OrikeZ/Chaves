@@ -6,6 +6,10 @@ const storageKeys = {
   registros: 'controle-chaves-registros'
 };
 
+const registrosPorPagina = 20;
+let paginaAtual = 1;
+let totalPaginas = 1;
+
 // Arrays para armazenar dados
 let setores = JSON.parse(localStorage.getItem(storageKeys.setores)) || [];
 let cargos = JSON.parse(localStorage.getItem(storageKeys.cargos)) || [];
@@ -96,26 +100,30 @@ function atualizarListaRetiradas() {
     return;
   }
 
-  abertos.forEach(r => {
-    const li = document.createElement('li');
-    li.textContent = `${r.chave} — ${r.pessoa} — Retirada: ${new Date(r.retirada).toLocaleString()}`;
+ abertos.forEach((r) => {
+  const li = document.createElement('li');
+  li.textContent = `${r.chave} — ${r.pessoa} — Retirada: ${new Date(r.retirada).toLocaleString()}`;
 
-    const btnDevolver = document.createElement('button');
-    btnDevolver.textContent = 'Devolver';
-    btnDevolver.title = 'Registrar devolução da chave';
+  const btnDevolver = document.createElement('button');
+  btnDevolver.textContent = 'Devolver';
+  btnDevolver.title = 'Registrar devolução da chave';
 
-    const i = registros.indexOf(r);
+  btnDevolver.addEventListener('click', () => {
+    // Marca como devolvido
+    r.devolvido = new Date().toISOString();
 
-    btnDevolver.addEventListener('click', () => {
-      registros[i].devolvido = new Date().toISOString();
-      salvarDados();
-      preencherSelectChave();
-      atualizarListaRetiradas();
-    });
+    salvarDados(); // <- salva no localStorage
+    imprimirTicket('devolução', r); // <- imprime antes de atualizar interface
 
-    li.appendChild(btnDevolver);
-    listaRetiradas.appendChild(li);
+    // Atualiza interface após impressão
+    preencherSelectChave();
+    atualizarListaRetiradas();
   });
+
+  li.appendChild(btnDevolver);
+  listaRetiradas.appendChild(li);
+});
+
 }
 
 // --- Funções para cadastro e selects da página cadastro.html ---
@@ -328,6 +336,8 @@ formRegistro?.addEventListener('submit', e => {
   salvarDados();
   preencherSelectChave();
   atualizarListaRetiradas();
+  imprimirTicket('retirada', registros[registros.length - 1]);
+  formRegistro.reset();
 
   formRegistro.reset();
 });
@@ -344,12 +354,191 @@ function initCadastro() {
   preencherSelectSetores();
   preencherSelectCargos();
   preencherSelectSetoresChave();
+
 }
+
+function imprimirTicket(tipo, registro) {
+  const chaveObj = chaves.find(c => c.numero === registro.chave);
+  const pessoa = registro.pessoa;
+  const dataHora = tipo === 'retirada' ? new Date(registro.retirada) : new Date(registro.devolvido);
+
+  const html = `
+    <html>
+      <head>
+        <title>Ticket de ${tipo}</title>
+        <style>
+          body {
+            font-family: monospace;
+            padding: 10px;
+            width: 300px;
+            margin: 0;
+            font-size: 18px;
+          }
+          h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 22px;
+          }
+          p {
+            margin: 6px 0;
+            font-size: 18px;
+          }
+          .linha {
+            border-top: 1px dashed #000;
+            margin: 10px 0;
+          }
+          .assinatura {
+            margin-top: 40px;
+            font-size: 18px;
+          }
+          @media print {
+            body {
+              width: 300px;
+              margin: 0;
+              padding: 10px;
+              font-size: 18px;
+            }
+            button {
+              display: none;
+            }
+            @page {
+              size: auto;
+              margin: 0;
+            }
+          }
+        </style>
+      </head>
+      <body>
+        <h2>Controle de Chaves</h2>
+        <p><strong>${tipo === 'retirada' ? 'Retirada' : 'Devolução'}</strong></p>
+        <p><strong>Pessoa:</strong> ${pessoa}</p>
+        <p><strong>Data/Hora:</strong> ${dataHora.toLocaleString()}</p>
+        <p><strong>Chave:</strong> ${registro.chave}</p>
+        <p><strong>Local:</strong> ${chaveObj?.local || '-'}</p>
+        <div class="linha"></div>
+        <p class="assinatura">Assinatura: ___________________________</p>
+      </body>
+    </html>
+  `;
+
+  const printWindow = window.open('', '_blank', 'width=350,height=400');
+  if (!printWindow) {
+    alert('Por favor, permita popups para imprimir o ticket.');
+    return;
+  }
+  printWindow.document.write(html);
+  printWindow.document.close();
+
+  printWindow.focus();
+
+  printWindow.onload = () => {
+    printWindow.print();
+    printWindow.close();
+  };
+}
+
+function preencherTabelaRegistros() {
+  const tabela = document.getElementById('tabela-registros').querySelector('tbody');
+  const filtroPessoa = document.getElementById('filtro-pessoa');
+  const filtroChave = document.getElementById('filtro-chave');
+
+  if (!tabela) return;
+
+  tabela.innerHTML = ''; // Limpa a tabela
+
+  let registrosFiltrados = [...registros];
+
+  // Aplica filtros
+  if (filtroPessoa && filtroPessoa.value) {
+    registrosFiltrados = registrosFiltrados.filter(r => r.pessoa === filtroPessoa.value);
+  }
+  if (filtroChave && filtroChave.value) {
+    registrosFiltrados = registrosFiltrados.filter(r => r.chave === filtroChave.value);
+  }
+
+  if (registrosFiltrados.length === 0) {
+    const row = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = 4;
+    td.textContent = 'Nenhum registro encontrado.';
+    row.appendChild(td);
+    tabela.appendChild(row);
+    return;
+  }
+
+  registrosFiltrados.forEach(registro => {
+    const tr = document.createElement('tr');
+
+    const tdPessoa = document.createElement('td');
+    tdPessoa.textContent = registro.pessoa;
+    tr.appendChild(tdPessoa);
+
+    const tdChave = document.createElement('td');
+    tdChave.textContent = registro.chave;
+    tr.appendChild(tdChave);
+
+    const tdRetirada = document.createElement('td');
+    tdRetirada.textContent = new Date(registro.retirada).toLocaleString();
+    tr.appendChild(tdRetirada);
+
+    const tdDevolucao = document.createElement('td');
+    tdDevolucao.textContent = registro.devolvido
+      ? new Date(registro.devolvido).toLocaleString()
+      : '—';
+    tr.appendChild(tdDevolucao);
+
+    tabela.appendChild(tr);
+  });
+}
+function initRegistros() {
+  const filtroPessoa = document.getElementById('filtro-pessoa');
+  const filtroChave = document.getElementById('filtro-chave');
+
+  // Preenche opções dos filtros
+  pessoas.forEach(p => {
+    const opt = document.createElement('option');
+    opt.value = p.nome;
+    opt.textContent = p.nome;
+    filtroPessoa?.appendChild(opt);
+  });
+
+  chaves.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.numero;
+    opt.textContent = c.numero;
+    filtroChave?.appendChild(opt);
+  });
+
+  // Eventos para filtros
+  filtroPessoa?.addEventListener('change', preencherTabelaRegistros);
+  filtroChave?.addEventListener('change', preencherTabelaRegistros);
+
+  preencherTabelaRegistros();
+}
+
+function exportarXLSX() {
+  const tabela = document.getElementById('tabela-registros');
+  if (!tabela) {
+    alert('Tabela não encontrada.');
+    return;
+  }
+
+  // Cria uma planilha a partir da tabela HTML
+  const wb = XLSX.utils.book_new();
+  const ws = XLSX.utils.table_to_sheet(tabela);
+  XLSX.utils.book_append_sheet(wb, ws, 'Registros');
+
+  // Salva o arquivo
+  XLSX.writeFile(wb, 'registros_chaves.xlsx');
+}
+
 
 window.onload = () => {
   if (formRegistro) {
     initIndex();
   } else if (formSetor || formCargo || formPessoa || formChave) {
     initCadastro();
+  } else if (document.getElementById('tabela-registros')) {
+    initRegistros(); // <- ESSA LINHA INICIALIZA A PÁGINA registros.html
   }
 };
