@@ -1,0 +1,519 @@
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f0f2f5;
+  color: #333;
+  line-height: 1.6;
+  padding-top: 100px; /* por causa do header fixo */
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* centraliza o main horizontalmente */
+}
+main {
+  width: 100%;
+  max-width: 900px;
+  background: #fff;
+  border-radius: 8px;
+  padding: 20px 30px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.1);
+  margin-bottom: 40px;
+}
+
+
+header, footer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+h1 {
+  color: #005f73;
+  margin-bottom: 10px;
+}
+
+section {
+  margin-bottom: 30px;
+}
+
+/* Centraliza títulos das seções */
+h2 {
+  color: #0a9396;
+  margin-bottom: 15px;
+  border-bottom: 2px solid #94d2bd;
+  padding-bottom: 5px;
+  text-align: center;
+}
+
+h3 {
+  color: #05668d;
+  margin-bottom: 10px;
+}
+
+form {
+  display: flex;
+  flex-wrap: nowrap; /* Impede quebra de linha para inputs + botões */
+  gap: 10px;
+  align-items: center;
+  justify-content: center; /* Centraliza conteúdo horizontalmente */
+}
+
+form label {
+  flex: 0 0 100px;
+  font-weight: 600;
+}
+
+form select, form input[type="text"] {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+form select:focus, form input[type="text"]:focus {
+  border-color: #0a9396;
+  outline: none;
+}
+
+button {
+  padding: 8px 18px;
+  background-color: #0a9396;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+}
+
+button:hover {
+  background-color: #05668d;
+}
+
+#lista-retiradas {
+  list-style: none;
+  padding-left: 0;
+}
+
+#lista-retiradas li {
+  padding: 10px;
+  border: 1px solid #94d2bd;
+  margin-bottom: 8px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #e0fbfc;
+  font-weight: 600;
+}
+
+#lista-retiradas li button {
+  background-color: #ee6c4d;
+  padding: 6px 12px;
+  font-weight: 600;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#lista-retiradas li button:hover {
+  background-color: #d64933;
+}
+
+.cadastros {
+  display: flex;
+  gap: 30px;
+  flex-wrap: wrap;
+  justify-content: center; /* Centraliza os blocos */
+}
+
+.cadastro-pessoa,
+.cadastro-chave {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Deixa os formulários de cadastro com input e botão lado a lado e centralizados */
+.cadastro-pessoa form,
+.cadastro-chave form {
+  flex-wrap: nowrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.cadastro-pessoa form input,
+.cadastro-chave form input {
+  flex: 1;
+  max-width: 250px;
+}
+
+/* Ajusta o botão para ficar alinhado e sem esticar */
+.cadastro-pessoa form button,
+.cadastro-chave form button {
+  flex-shrink: 0;
+  padding: 8px 15px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+  font-size: 0.95rem;
+}
+
+table th, table td {
+  border: 1px solid #94d2bd;
+  padding: 10px 12px;
+  text-align: left;
+}
+
+table th {
+  background-color: #0a9396;
+  color: white;
+}
+
+nav a {
+  color: #0a9396;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+/* Responsividade */
+@media (max-width: 600px) {
+  form label {
+    flex-basis: 100%;
+  }
+
+  form select, form input[type="text"] {
+    flex-basis: 100%;
+  }
+
+  form {
+    flex-wrap: wrap; /* permite quebra para mobile */
+    justify-content: flex-start;
+  }
+
+  .cadastros {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: #c11411;
+  padding: 10px 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+}
+
+
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@media (min-width: 600px) {
+  .header-content {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+header img {
+  width: 100px;
+  height: 50px;  
+  align-items: left;
+  
+} 
+
+header h1 {
+  color: white;
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+header p {
+  color: #ffe;
+  font-size: 0.9rem;
+  margin: 4px 0 10px;
+  padding-left: 15px;
+}
+
+nav {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #ffcccb;
+}
+
+ body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f5f5f5;
+      color: #333;
+    }
+    h2 {
+      border-bottom: 2px solid #444;
+      padding-bottom: 5px;
+      margin-top: 30px;
+    }
+    form {
+      background: #fff;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+      margin-bottom: 30px;
+      max-width: 400px;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    input[type="text"], select {
+      width: 100%;
+      padding: 7px;
+      margin-top: 5px;
+      box-sizing: border-box;
+      border-radius: 4px;
+      border: 1px solid #aaa;
+      font-size: 1em;
+    }
+    select[multiple] {
+      height: 100px;
+    }
+    button {
+      margin-top: 15px;
+      padding: 10px 15px;
+      background-color: #2d89ef;
+      border: none;
+      color: white;
+      font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1b5fbd;
+    }
+
+  #form-setor, #form-cargo, #form-pessoa, #form-chave, #form-editar-cargo, #form-editar-pessoa, #form-editar-chave {
+      margin: 0 auto;
+      display: flex;
+    }
+
+      body {
+      font-family: Arial, sans-serif;
+      background: #f5f5f5;
+      display: flex;
+      height: 100vh;
+      justify-content: center;
+      align-items: center;
+    }
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    label, input, button {
+      display: block;
+      width: 100%;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    input {
+      padding: 8px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background: #2d89ef;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #1b5fbd;
+    }
+
+      body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #eef2f7;
+      margin: 0;
+      padding: 0 20px 40px;
+      color: #333;
+    }
+  
+    h1 {
+      margin: 0;
+      font-weight: 700;
+    }
+    main {
+      max-width: 600px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgb(0 0 0 / 0.1);
+      padding: 20px 30px 30px;
+    }
+    h2 {
+      color: #2d89ef;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #2d89ef;
+      padding-bottom: 5px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      font-weight: 600;
+      margin-bottom: 6px;
+      margin-top: 12px;
+    }
+    select, button {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #bbb;
+      outline: none;
+      transition: border-color 0.2s ease;
+    }
+    select:focus, button:focus {
+      border-color: #2d89ef;
+      box-shadow: 0 0 5px #2d89ef;
+    }
+    button {
+      margin-top: 20px;
+      background-color: #2d89ef;
+      color: white;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #1a5ec8;
+    }
+    ul#lista-retiradas {
+      margin-top: 20px;
+      list-style-type: none;
+      padding-left: 0;
+    }
+    ul#lista-retiradas li {
+      background-color: #f0f4ff;
+      border: 1px solid #c3d2ff;
+      padding: 12px 15px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    ul#lista-retiradas li button {
+      padding: 5px 10px;
+      font-size: 0.9rem;
+      background-color: #e74c3c;
+      border: none;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    ul#lista-retiradas li button:hover {
+      background-color: #c0392b;
+    }
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #2d89ef;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    .logout-btn {
+  background-color: #ee6c4d;
+  border: none;
+  color: white;
+  font-weight: 600;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.logout-btn:hover {
+  background-color: #d64933;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+@media (min-width: 600px) {
+  form {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  form label {
+    flex: 0 0 120px;
+    margin: 0;
+  }
+
+  form input[type="text"], form select {
+    flex: 1;
+  }
+
+  form button {
+    flex-shrink: 0;
+  }
+}

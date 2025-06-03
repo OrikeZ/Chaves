@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cadastro Controle de Chaves</title>
+
+</head>
+<script>
+  const usuarioLogado = localStorage.getItem('usuarioLogado');
+  if (!usuarioLogado) {
+    window.location.href = 'login.html';  // redireciona para o login caso não esteja logado
+  }
+</script>
+
+<button id="logout">Sair</button>
+
+<script>
+  document.getElementById('logout').addEventListener('click', () => {
+    localStorage.removeItem('usuarioLogado');
+    window.location.href = 'login.html';
+  });
+</script>
+<body>
+<header>
+  <div class="header-content">
+    <div class="header-title">
+      <h1>Controle de Chaves</h1>
+      <p>Bem-vindo ao sistema de controle de chaves</p>
+
+    </div>
+
+    <div class="header-logo">
+      <img src="LOGO SERRA MORENA (2).jpg" alt="Logo do Controle de Chaves" /> 
+    </div>
+    <nav>
+      <a href="index.html">Página Inicial</a>
+      <a href="cadastro.html">Cadastros</a>
+      <a href="registros.html">Registros</a>
+      <button id="logout" class="logout-btn" >Sair</button>
+    </nav>
+  </div>
+</header>
+
+  <h1>Cadastro Controle de Chaves</h1>
+
+  <!-- Cadastro de Setores -->
+  <section>
+    <h2>Cadastrar Setor</h2>
+    <form id="form-setor">
+      <label for="novo-setor">Nome do Setor:</label>
+      <input type="text" id="novo-setor" name="novo-setor" required />
+      <button type="submit">Adicionar Setor</button>
+    </form>
+  </section>
+
+  <!-- Cadastro de Cargos -->
+  <section>
+    <h2>Cadastrar Cargo</h2>
+    <form id="form-cargo">
+      <label for="novo-cargo">Nome do Cargo:</label>
+      <input type="text" id="novo-cargo" name="novo-cargo" required />
+
+      <label>Setores autorizados:</label>
+      <div id = "checkbox-setores"> </div>
+
+
+      <button type="submit">Adicionar Cargo</button>
+    </form>
+  </section>
+
+  <!-- Cadastro de Pessoas -->
+  <section>
+    <h2>Cadastrar Pessoa</h2>
+    <form id="form-pessoa">
+      <label for="novo-nome-pessoa">Nome da Pessoa:</label>
+      <input type="text" id="novo-nome-pessoa" name="novo-nome-pessoa" required />
+
+      <label for="select-cargo-pessoa">Cargo:</label>
+      <select id="select-cargo-pessoa" name="select-cargo-pessoa" required>
+        <option value="">Selecione o cargo</option>
+      </select>
+
+      <button type="submit">Adicionar Pessoa</button>
+    </form>
+  </section>
+
+  <!-- Cadastro de Chaves -->
+  <section>
+    <h2>Cadastrar Chave</h2>
+    <form id="form-chave">
+      <label for="numero-chave">Número da Chave:</label>
+      <input type="text" id="numero-chave" name="numero-chave" required />
+
+      <label for="local-chave">Local da Chave:</label>
+      <input type="text" id="local-chave" name="local-chave" required />
+
+      <label for="select-setores-chave">Setores autorizados para esta chave (Selecione um ou mais):</label>
+      <select id="select-setores-chave" name="select-setores-chave" multiple required></select>
+
+      <button type="submit">Adicionar Chave</button>
+    </form>
+  </section>
+
+  <section>
+  <h2>Editar Cargo</h2>
+  <form id="form-editar-cargo">
+    <label for="select-cargo-editar">Cargo:</label>
+    <select id="select-cargo-editar">
+      <option value="">Selecione um cargo</option>
+    </select>
+    <label>Setores autorizados:</label>
+    <div id="editar-checkbox-setores"></div>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</section>
+
+<!-- Editar Pessoa -->
+<section>
+  <h2>Editar Pessoa</h2>
+  <form id="form-editar-pessoa">
+    <label for="select-pessoa-editar">Pessoa:</label>
+    <select id="select-pessoa-editar">
+      <option value="">Selecione uma pessoa</option>
+    </select>
+
+    <label for="editar-nome-pessoa">Novo Nome:</label>
+    <input type="text" id="editar-nome-pessoa" />
+
+    <label for="editar-cargo-pessoa">Cargo:</label>
+    <select id="editar-cargo-pessoa">
+      <option value="">Selecione o cargo</option>
+    </select>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</section>
+
+<!-- Editar Chave -->
+<section>
+  <h2>Editar Chave</h2>
+  <form id="form-editar-chave">
+    <label for="select-chave-editar">Chave:</label>
+    <select id="select-chave-editar">
+      <option value="">Selecione uma chave</option>
+    </select>
+
+    <label for="editar-local-chave">Novo Local:</label>
+    <input type="text" id="editar-local-chave" />
+
+    <label>Setores autorizados:</label>
+    <div id="editar-checkbox-setores-chave"></div>
+
+    <button type="submit">Salvar Alterações</button>
+  </form>
+</section>
+
+  <script src="script-cadastro.js"></script>
+</body>
+</html>
