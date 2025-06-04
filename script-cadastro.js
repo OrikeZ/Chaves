@@ -19,13 +19,13 @@ const inputNovoCargo = document.getElementById('novo-cargo');
 const checkboxSetoresCargo = document.getElementById('checkbox-setores');
 
 const formPessoa = document.getElementById('form-pessoa');
-const inputNomePessoa = document.getElementById('nome-pessoa');
+const inputNomePessoa = document.getElementById('novo-nome-pessoa');
 const selectCargoPessoa = document.getElementById('select-cargo-pessoa');
 
 const formChave = document.getElementById('form-chave');
 const inputNumeroChave = document.getElementById('numero-chave');
 const inputLocalChave = document.getElementById('local-chave');
-const checkboxSetoresChave = document.getElementById('select-setores-chave');
+const checkboxSetoresChave = document.getElementById('checkbox-setores-chave');
 
 function salvarDados() {
   localStorage.setItem(storageKeys.setores, JSON.stringify(setores));
@@ -36,60 +36,52 @@ function salvarDados() {
 
 // Atualiza checkboxes dos setores em cargos e chaves
 function atualizarCheckboxesSetores() {
-  // Para cargos (checkboxes)
-  checkboxSetoresCargo.innerHTML = '';
-  setores.forEach(setor => {
-    const id = `cargo-setor-${setor}`;
-    const div = document.createElement('div');
-    div.className = 'flex items-center gap-1';
+  if (checkboxSetoresCargo) {
+    checkboxSetoresCargo.innerHTML = '';
+    setores.forEach(setor => {
+      const id = `cargo-setor-${setor}`;
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-1';
 
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.id = id;
-    input.value = setor;
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.id = id;
+      input.value = setor;
 
-    const label = document.createElement('label');
-    label.htmlFor = id;
-    label.textContent = setor;
+      const label = document.createElement('label');
+      label.htmlFor = id;
+      label.textContent = setor;
 
-    div.appendChild(input);
-    div.appendChild(label);
+      div.appendChild(input);
+      div.appendChild(label);
 
-    checkboxSetoresCargo.appendChild(div);
-  });
+      checkboxSetoresCargo.appendChild(div);
+    });
+  }
 
-  // Para chaves (select multiple)
-  checkboxSetoresChave.innerHTML = '';
-  setores.forEach(setor => {
-    const option = document.createElement('option');
-    option.value = setor;
-    option.textContent = setor;
-    checkboxSetoresChave.appendChild(option);
-  });
+  if (checkboxSetoresChave) {
+    checkboxSetoresChave.innerHTML = '';
+    setores.forEach(setor => {
+      const id = `chave-setor-${setor}`;
+      const div = document.createElement('div');
+      div.className = 'flex items-center gap-1';
+
+      const input = document.createElement('input');
+      input.type = 'checkbox';
+      input.id = id;
+      input.value = setor;
+
+      const label = document.createElement('label');
+      label.htmlFor = id;
+      label.textContent = setor;
+
+      div.appendChild(input);
+      div.appendChild(label);
+
+      checkboxSetoresChave.appendChild(div);
+    });
+  }
 }
-
-  // Para chaves
-  checkboxSetoresChave.innerHTML = '';
-  setores.forEach(setor => {
-    const id = `chave-setor-${setor}`;
-    const div = document.createElement('div');
-    div.className = 'flex items-center gap-1';
-
-    const input = document.createElement('input');
-    input.type = 'checkbox';
-    input.id = id;
-    input.value = setor;
-
-    const label = document.createElement('label');
-    label.htmlFor = id;
-    label.textContent = setor;
-
-    div.appendChild(input);
-    div.appendChild(label);
-
-    checkboxSetoresChave.appendChild(div);
-  });
-
 
 // Atualiza select cargos na pessoa
 function atualizarSelectCargo() {
@@ -101,8 +93,6 @@ function atualizarSelectCargo() {
     selectCargoPessoa.appendChild(opt);
   });
 }
-
-// --- Eventos de cadastro ---
 
 // Cadastro Setor
 formSetor.addEventListener('submit', e => {
@@ -120,6 +110,8 @@ formSetor.addEventListener('submit', e => {
   salvarDados();
   atualizarCheckboxesSetores();
   inputNovoSetor.value = '';
+  window.location.reload(); // Recarrega a página para atualizar os selects
+  alert('Setor cadastrado com sucesso!');
 });
 
 // Cadastro Cargo
@@ -149,6 +141,8 @@ formCargo.addEventListener('submit', e => {
   inputNovoCargo.value = '';
   // desmarca checkboxes
   checkboxSetoresCargo.querySelectorAll('input[type=checkbox]').forEach(chk => chk.checked = false);
+  window.location.reload(); // Recarrega a página para atualizar os selects
+  alert('Cargo cadastrado com sucesso!');
 });
 
 // Cadastro Pessoa
@@ -174,6 +168,8 @@ formPessoa.addEventListener('submit', e => {
   salvarDados();
   inputNomePessoa.value = '';
   selectCargoPessoa.value = '';
+  window.location.reload(); // Recarrega a página para atualizar os selects
+  alert('Pessoa cadastrada com sucesso!');
 });
 
 // Cadastro Chave
@@ -181,7 +177,8 @@ formChave.addEventListener('submit', e => {
   e.preventDefault();
   const numero = inputNumeroChave.value.trim();
   const local = inputLocalChave.value.trim();
-const setoresAutorizados = Array.from(checkboxSetoresChave.selectedOptions).map(opt => opt.value);
+const setoresAutorizados = Array.from(checkboxSetoresChave.querySelectorAll('input[type=checkbox]:checked')).map(chk => chk.value);
+
 
 if (setoresAutorizados.length === 0) {
   alert('Selecione pelo menos um setor autorizado para a chave.');
@@ -210,6 +207,8 @@ if (setoresAutorizados.length === 0) {
   inputNumeroChave.value = '';
   inputLocalChave.value = '';
   checkboxSetoresChave.querySelectorAll('input[type=checkbox]').forEach(chk => chk.checked = false);
+  window.location.reload(); // Recarrega a página para atualizar os selects
+  alert('Chave cadastrada com sucesso!');
 });
 
 // Inicialização
@@ -269,6 +268,7 @@ document.getElementById('form-editar-cargo').addEventListener('submit', e => {
     cargo.setoresAutorizados = selecionados;
     salvarDados();
     alert('Cargo atualizado!');
+    window.location.reload(); // Recarrega a página para atualizar os selects
   }
 });
 
@@ -315,6 +315,7 @@ document.getElementById('form-editar-pessoa').addEventListener('submit', e => {
     salvarDados();
     alert('Pessoa atualizada!');
     atualizarSelectPessoaEditar();
+    window.location.reload(); // Recarrega a página para atualizar os selects
   }
 });
 
@@ -367,10 +368,10 @@ document.getElementById('form-editar-chave').addEventListener('submit', e => {
     salvarDados();
     alert('Chave atualizada!');
     atualizarSelectChaveEditar();
+    window.location.reload(); // Recarrega a página para atualizar os selects
   }
 });
 
-
-
-
-window.onload = init;
+window.addEventListener('load', () => {
+  init();
+});
