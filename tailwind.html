@@ -16,7 +16,7 @@
   <div class="flex justify-between bg-red-700 items-center py-2 header-content">
     <div>
       <h1 class="font-bold text-3xl px-15">Controle de Chaves</h1>
-      <p class="px-15">Bem-vindo ao sistema de controle de chaves</p>
+      <p class="px-12">Bem-vindo ao sistema de controle de chaves</p>
     </div>
     <nav class="flex space-x-4 px-10">
       <a href="index.html">Página Inicial</a>
@@ -29,16 +29,14 @@
   </div>
 </header>
 
-  <main class="bg-white text-black flex  container mx-auto p-5 py-10 flex-col items-center">
-    <h1 class="text-4xl font-bold mb-5">Controle de Chaves</h1>
+  <main class="leading-none text-center mb-20px bg-white text-black flex  container mx-auto p-5 py-10 flex-col items-center">
     <section class="registro">
-      <h2 class="flex justify-center py-8">Registrar Retirada de Chave</h2>
-      <form class="flex font-bold" id="form-registro">
-        <label class="fl" for="pessoa">Pessoa:</label>
+      <h2 class="font-bold border-b-[2px] text-2xl border-red-900 flex justify-center py-8 ">Registrar Retirada de Chave</h2>
+      <form class="rounded-lg box-border items-center gap-3 flex flex-wrap" id="form-registro">
+        <label for="pessoa">Pessoa:</label>
         <select id="pessoa" required>
           <option value="">Carregando...</option>
         </select>
-
         <label for="chave">Chave:</label>
         <select id="chave" required>
           <option value="">Carregando...</option>
